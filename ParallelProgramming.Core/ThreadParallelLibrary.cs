@@ -9,11 +9,39 @@ namespace ParallelProgramming.Core
     {
         private const int size = 10000000;
 
-        public void ForeachExample()
+        public void ForExample()
         {
             Stopwatch sw = new Stopwatch();
             sw.Start();
+            for (var i = 0; i < size; i++)
+            {
+                IsPrime(i);
+            }
+            sw.Stop();
+            Console.WriteLine($"For time: {sw.ElapsedMilliseconds}ms");
+        }
+
+        public void ParallelForExample()
+        {
+            Stopwatch sw = new Stopwatch();
+            var collection = Enumerable.Range(1, size).ToArray();
+            sw.Start();
+            Parallel.For(0, collection.Length,
+              index =>
+              {
+                  IsPrime(index);
+
+              });
+            Console.WriteLine($"Parallel For time: {sw.ElapsedMilliseconds}ms");
+        }
+
+
+
+        public void ForeachExample()
+        {
+            Stopwatch sw = new Stopwatch();
             var collection = Enumerable.Range(1, size);
+            sw.Start();
             foreach (var item in collection)
             {
                 IsPrime(item);
@@ -25,16 +53,41 @@ namespace ParallelProgramming.Core
         public void ParallelForeachExample()
         {
             Stopwatch sw = new Stopwatch();
-            sw.Start();
             var collection = Enumerable.Range(1, size);
+            sw.Start();
             Parallel.ForEach(collection,
-            currentElement =>
+            element =>
             {
-                IsPrime(currentElement);
+                IsPrime(element);
             });
             sw.Stop();
             Console.WriteLine($"Parallel Foreach time: {sw.ElapsedMilliseconds}ms");
         }
+        public void LINQExample()
+        {
+            Stopwatch sw = new Stopwatch();
+            var collection = Enumerable.Range(1, size);
+            sw.Start();
+            var result = collection
+                .Select(x => IsPrime(x))
+                .ToArray();
+            sw.Stop();
+            Console.WriteLine($"Linq time: {sw.ElapsedMilliseconds}ms");
+        }
+
+        public void PLINQExample()
+        {
+            Stopwatch sw = new Stopwatch();
+            var collection = Enumerable.Range(1, size);
+            sw.Start();
+            var result = collection
+                .AsParallel()
+                .Select(x => IsPrime(x))
+                .ToArray();
+            sw.Stop();
+            Console.WriteLine($"Parallel Linq time: {sw.ElapsedMilliseconds}ms");
+        }
+
 
         private bool IsPrime(int number)
         {

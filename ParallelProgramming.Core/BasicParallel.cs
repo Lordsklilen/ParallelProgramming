@@ -12,7 +12,8 @@ namespace ParallelProgramming.Core
             t.Start();
             for (int i = 0; i < 4; i++)
             {
-                Console.WriteLine("Main thread: Do some work.");
+                Thread thread = Thread.CurrentThread;
+                Console.WriteLine($"Main thread Thread ID: {thread.ManagedThreadId}");
                 Thread.Sleep(10);
             }
             Console.WriteLine("Main thread: t.Join()");
@@ -20,15 +21,13 @@ namespace ParallelProgramming.Core
             Console.WriteLine("Main thread exits.");
         }
 
-        public static void ThreadProc()
+        public void ThreadProc()
         {
             for (int i = 0; i < 10; i++)
             {
                 Thread thread = Thread.CurrentThread;
-                Console.WriteLine(
-                    $"Background: {thread.IsBackground}, " +
-                    $"Thread Pool: {thread.IsThreadPoolThread}, " +
-                    $"Thread ID: {thread.ManagedThreadId}");
+                Console.WriteLine($"ThreadProc, Thread ID: {thread.ManagedThreadId}");
+                Thread.Sleep(10);
             }
         }
 
@@ -50,6 +49,7 @@ namespace ParallelProgramming.Core
                 $"Background: {thread.IsBackground}, " +
                 $"Thread Pool: {thread.IsThreadPoolThread}, " +
                 $"Thread ID: {thread.ManagedThreadId}");
+            Thread.Sleep(10);
         }
     }
 }

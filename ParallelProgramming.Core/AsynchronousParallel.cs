@@ -89,7 +89,6 @@ namespace ParallelProgramming.Core
             Console.WriteLine("Start toasting...");
             await Task.Delay(3000);
             Console.WriteLine("Remove toast from toaster");
-
             return new Toast();
         }
 

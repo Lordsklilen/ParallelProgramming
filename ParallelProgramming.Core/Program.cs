@@ -8,15 +8,19 @@ namespace ParallelProgramming.Core
         {
             var basic = new BasicParallel();
             var asynchronous = new AsynchronousParallel();
-            var taskExample = new ParallelProgramming();
+            var taskExample = new TaskExample();
             var tpl = new ThreadParallelLibrary();
-            //basic.ThreadExample();
-            //basic.ThreadPoolExample();
-            //asynchronous.SynchronousExample();
-            //await asynchronous.AynchronousExample();
-            //taskExample.TaskRunExample();
+            basic.ThreadExample();
+            basic.ThreadPoolExample();
+            asynchronous.SynchronousExample();
+            await asynchronous.AynchronousExample();
+            taskExample.TaskRunExample();
             tpl.ForeachExample();
             tpl.ParallelForeachExample();
+            tpl.ForExample();
+            tpl.ParallelForExample();
+            tpl.LINQExample();
+            tpl.PLINQExample();
 
         }
     }
