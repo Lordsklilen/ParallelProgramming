@@ -3,35 +3,27 @@ using System.Threading;
 
 namespace ParallelProgramming.Core
 {
-    public class BasicParallel
+    public static class Basic
     {
-        public void ThreadExample()
+        public static void ThreadExample()
         {
-            Console.WriteLine("Main thread: Start a second thread.");
+            Console.WriteLine($"ThreadProc, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
             Thread t = new Thread(new ThreadStart(ThreadProc));
             t.Start();
-            for (int i = 0; i < 4; i++)
-            {
-                Thread thread = Thread.CurrentThread;
-                Console.WriteLine($"Main thread Thread ID: {thread.ManagedThreadId}");
-                Thread.Sleep(10);
-            }
-            Console.WriteLine("Main thread: t.Join()");
             t.Join();
             Console.WriteLine("Main thread exits.");
         }
 
-        public void ThreadProc()
+        public static void ThreadProc()
         {
-            for (int i = 0; i < 10; i++)
-            {
-                Thread thread = Thread.CurrentThread;
-                Console.WriteLine($"ThreadProc, Thread ID: {thread.ManagedThreadId}");
-                Thread.Sleep(10);
-            }
+            Console.WriteLine($"ThreadProc, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+            Thread.Sleep(1000);
         }
 
-        public void ThreadPoolExample()
+
+
+
+        public static void ThreadPoolExample()
         {
             for (int i = 0; i < 10; i++)
             {

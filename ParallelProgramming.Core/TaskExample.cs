@@ -4,27 +4,41 @@ using System.Threading.Tasks;
 
 namespace ParallelProgramming.Core
 {
-    public class TaskExample
+    public static class TaskExample
     {
-        public void TaskRunExample()
+        // Normal Task.Run with thread from threadpool
+        public static void Example()
         {
             Thread thread = Thread.CurrentThread;
             var param = "parameter";
-            var t = Task.Run(() => ShowThreadInfo(param));
-            Console.WriteLine($"MainThread waiting for result. " +
-                $"ThreadId: {thread.ManagedThreadId}");
+            var t = Task.Run(() =>
+            {
+                Console.WriteLine($"Parameter: {param} Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+                Task.Delay(2000).Wait();
+                Console.WriteLine($"Minor task ended");
+            });
+            Console.WriteLine($"Waiting for result. ThreadId: {thread.ManagedThreadId}");
             t.Wait();
-            Console.WriteLine($"Task done");
-
+            Console.WriteLine($"Tasks done");
         }
 
-        void ShowThreadInfo(string param)
+        //Long running task 
+        public static void ExampleLongRunning()
         {
-            Console.WriteLine($"Parameter: {param} " +
-                $"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-            Task.Delay(2000).Wait();
-            Console.WriteLine($"Task ended: {param} " +
-                $"Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+            Thread thread = Thread.CurrentThread;
+            var ct = new CancellationToken();
+            Task t = Task.Factory.StartNew(async () =>
+            {
+                while (!ct.IsCancellationRequested)
+                {
+                    await Task.Delay(500);
+                }
+            }, ct, TaskCreationOptions.LongRunning, TaskScheduler.Default)
+                .Unwrap();
+
+            Console.WriteLine($"Waiting for result. ThreadId: {thread.ManagedThreadId}");
+            t.Wait();
+            Console.WriteLine($"Tasks done");
         }
     }
 }
