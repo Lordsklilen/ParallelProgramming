@@ -6,39 +6,42 @@ namespace ParallelProgramming.Core
 {
     public static class TaskExample
     {
-        // Normal Task.Run with thread from threadpool
-        public static void Example()
+        // Task.Run with thread from threadpool
+        public static async Task Example()
         {
-            Thread thread = Thread.CurrentThread;
             var param = "parameter";
-            var t = Task.Run(() =>
+            var t = Task.Run(async () =>
             {
                 Console.WriteLine($"Parameter: {param} Thread ID: {Thread.CurrentThread.ManagedThreadId}");
-                Task.Delay(2000).Wait();
+                await Task.Delay(2000);
                 Console.WriteLine($"Minor task ended");
             });
-            Console.WriteLine($"Waiting for result. ThreadId: {thread.ManagedThreadId}");
-            t.Wait();
-            Console.WriteLine($"Tasks done");
+            Console.WriteLine($"Awaiting for result. ThreadId: { Thread.CurrentThread.ManagedThreadId}");
+            await t;
+            Console.WriteLine($"Tasks done, ThreadId: { Thread.CurrentThread.ManagedThreadId}");
         }
 
         //Long running task 
-        public static void ExampleLongRunning()
+        public static async Task ExampleLongRunning()
         {
-            Thread thread = Thread.CurrentThread;
-            var ct = new CancellationToken();
+            var cancelationToken = new CancellationToken();
+            var counter = 0;
             Task t = Task.Factory.StartNew(async () =>
             {
-                while (!ct.IsCancellationRequested)
+                while (!cancelationToken.IsCancellationRequested && counter < 5)
                 {
+                    Console.WriteLine($"Counter {counter} ThreadId: { Thread.CurrentThread.ManagedThreadId}");
                     await Task.Delay(500);
+                    counter++;
                 }
-            }, ct, TaskCreationOptions.LongRunning, TaskScheduler.Default)
+            }, cancelationToken,
+            TaskCreationOptions.LongRunning,
+            TaskScheduler.Default)
                 .Unwrap();
 
-            Console.WriteLine($"Waiting for result. ThreadId: {thread.ManagedThreadId}");
-            t.Wait();
-            Console.WriteLine($"Tasks done");
+            Console.WriteLine($"Awaiting for result. ThreadId: { Thread.CurrentThread.ManagedThreadId}");
+            await t;
+            Console.WriteLine($"Tasks done, counter: {counter},ThreadId: { Thread.CurrentThread.ManagedThreadId}");
         }
     }
 }

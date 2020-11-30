@@ -10,16 +10,20 @@ namespace ParallelProgramming.Core
             Utils.ExecutionTime(new Action(Asynchronous.SynchronousExample));
             await Utils.ExecutionTimeAsync(Asynchronous.AsynchronousExample);
 
-            //TaskExample.Example();
+            Basic.ThreadExample();
+            Basic.ThreadPoolExample();
 
-            //ParallelFor.Example();
-            //ParallelFor.ParallelExample();
+            Utils.ExecutionTime(new Action(ParallelFor.Example));
+            Utils.ExecutionTime(new Action(ParallelFor.ParallelExample));
 
-            //ParallelForeach.Example();
-            //ParallelForeach.ParallelExample();
+            Utils.ExecutionTime(new Action(ParallelForeach.Example));
+            Utils.ExecutionTime(new Action(ParallelForeach.ParallelExample));
 
-            //PLINQ.Example();
-            //PLINQ.ParallelExample();
+            await TaskExample.Example();
+            await TaskExample.ExampleLongRunning();
+
+            Utils.ExecutionTime(new Action(PLINQ.Example));
+            Utils.ExecutionTime(new Action(PLINQ.ParallelExample));
         }
     }
 }

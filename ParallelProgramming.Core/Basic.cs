@@ -7,21 +7,18 @@ namespace ParallelProgramming.Core
     {
         public static void ThreadExample()
         {
-            Console.WriteLine($"ThreadProc, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
+            Console.WriteLine($"Main thread, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
             Thread t = new Thread(new ThreadStart(ThreadProc));
             t.Start();
             t.Join();
             Console.WriteLine("Main thread exits.");
         }
 
-        public static void ThreadProc()
+        private static void ThreadProc()
         {
             Console.WriteLine($"ThreadProc, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
             Thread.Sleep(1000);
         }
-
-
-
 
         public static void ThreadPoolExample()
         {
@@ -34,7 +31,7 @@ namespace ParallelProgramming.Core
             Console.WriteLine("Main thread exits.");
         }
 
-        static void ThreadProc(object stateInfo)
+        private static void ThreadProc(object stateInfo)
         {
             Thread thread = Thread.CurrentThread;
             Console.WriteLine(
