@@ -11,7 +11,7 @@ namespace ParallelProgramming.Core
             Thread t = new Thread(new ThreadStart(ThreadProc));
             t.Start();
             t.Join();
-            Console.WriteLine("Main thread exits.");
+            Console.WriteLine($"Main thread exits.Thread ID: {Thread.CurrentThread.ManagedThreadId}");
         }
 
         private static void ThreadProc()
@@ -28,7 +28,7 @@ namespace ParallelProgramming.Core
             }
             Console.WriteLine("Main thread does some work, then sleeps.");
             Thread.Sleep(1000);
-            Console.WriteLine("Main thread exits.");
+            Console.WriteLine($"Main thread exits, Thread ID: {Thread.CurrentThread.ManagedThreadId}");
         }
 
         private static void ThreadProc(object stateInfo)

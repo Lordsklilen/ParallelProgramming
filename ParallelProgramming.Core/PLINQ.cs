@@ -21,5 +21,15 @@ namespace ParallelProgramming.Core
                 .Select(x => Utils.IsPrime(x))
                 .ToArray();
         }
+
+        public static void ParallelOrderedExample()
+        {
+            var collection = Enumerable.Range(1, size);
+            var result = collection
+                .AsParallel()
+                .AsOrdered()
+                .Select(x => Utils.IsPrime(x))
+                .ToArray();
+        }
     }
 }
