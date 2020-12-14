@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Threading;
 
-namespace ParallelProgramming.Core
+namespace ParallelProgramming
 {
     public static class Basic
     {

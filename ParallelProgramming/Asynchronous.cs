@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ParallelProgramming.Core
+namespace ParallelProgramming
 {
     public static class Asynchronous
     {

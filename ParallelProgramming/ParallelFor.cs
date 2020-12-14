@@ -1,30 +1,30 @@
 ﻿using System.Linq;
 using System.Threading.Tasks;
 
-namespace ParallelProgramming.Core
+namespace ParallelProgramming
 {
-    public static class ParallelFor
+    public static class ParallelForeach
     {
         private const int size = 10000000;
 
         public static void Example()
         {
             var collection = Enumerable.Range(1, size);
-            for (var i = 0; i < collection.Count(); i++)
+            foreach (var item in collection)
             {
-                Utils.IsPrime(i);
+                Utils.IsPrime(item);
             }
         }
 
         public static void ParallelExample()
         {
             var collection = Enumerable.Range(1, size);
-            Parallel.For(0, collection.Count(),
-              index =>
-              {
-                  Utils.IsPrime(index);
-
-              });
+            Parallel.ForEach(collection,
+            element =>
+            {
+                Utils.IsPrime(element);
+            }
+            );
         }
     }
 }

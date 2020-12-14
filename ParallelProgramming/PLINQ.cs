@@ -1,6 +1,6 @@
 ﻿using System.Linq;
 
-namespace ParallelProgramming.Core
+namespace ParallelProgramming
 {
     public static class PLINQ
     {

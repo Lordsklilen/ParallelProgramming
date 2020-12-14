@@ -2,7 +2,7 @@
 using System.Threading;
 using System.Threading.Tasks;
 
-namespace ParallelProgramming.Core
+namespace ParallelProgramming
 {
     public static class TaskExample
     {
@@ -38,7 +38,6 @@ namespace ParallelProgramming.Core
             TaskCreationOptions.LongRunning,
             TaskScheduler.Default)
                 .Unwrap();
-
             Console.WriteLine($"Awaiting for result. ThreadId: { Thread.CurrentThread.ManagedThreadId}");
             await t;
             Console.WriteLine($"Tasks done, counter: {counter},ThreadId: { Thread.CurrentThread.ManagedThreadId}");
