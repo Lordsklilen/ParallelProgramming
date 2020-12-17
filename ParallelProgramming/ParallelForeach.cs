@@ -20,9 +20,10 @@ namespace ParallelProgramming
         {
             var collection = Enumerable.Range(1, size);
             Parallel.For(0, collection.Count(),
-              index =>
+                
+              i =>
               {
-                  Utils.IsPrime(index);
+                  Utils.IsPrime(i);
 
               });
         }

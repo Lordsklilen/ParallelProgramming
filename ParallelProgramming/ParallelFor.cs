@@ -20,6 +20,7 @@ namespace ParallelProgramming
         {
             var collection = Enumerable.Range(1, size);
             Parallel.ForEach(collection,
+                
             element =>
             {
                 Utils.IsPrime(element);

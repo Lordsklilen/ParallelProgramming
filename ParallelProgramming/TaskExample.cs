@@ -10,7 +10,7 @@ namespace ParallelProgramming
         public static async Task Example()
         {
             var param = "parameter";
-            var t = Task.Run(async () =>
+            Task t = Task.Run(async () =>
             {
                 Console.WriteLine($"Parameter: {param} Thread ID: {Thread.CurrentThread.ManagedThreadId}");
                 await Task.Delay(2000);
@@ -23,21 +23,29 @@ namespace ParallelProgramming
 
         //Long running task 
         public static async Task ExampleLongRunning()
-        {
+        {            
             var cancelationToken = new CancellationToken();
             var counter = 0;
             Task t = Task.Factory.StartNew(async () =>
             {
-                while (!cancelationToken.IsCancellationRequested && counter < 5)
+                //while (!cancelationToken.IsCancellationRequested && counter < 5)
+                //{
+                //    Console.WriteLine($"Counter {counter} ThreadId: { Thread.CurrentThread.ManagedThreadId}");
+                //    await Task.Delay(500);
+                //    counter++;
+                //}
+                for (int i = 0; i < 100000000; i++)
                 {
-                    Console.WriteLine($"Counter {counter} ThreadId: { Thread.CurrentThread.ManagedThreadId}");
-                    await Task.Delay(500);
                     counter++;
                 }
             }, cancelationToken,
             TaskCreationOptions.LongRunning,
             TaskScheduler.Default)
                 .Unwrap();
+            for (int i = 0; i < 100000000; i++)
+            {
+                counter--;
+            }
             Console.WriteLine($"Awaiting for result. ThreadId: { Thread.CurrentThread.ManagedThreadId}");
             await t;
             Console.WriteLine($"Tasks done, counter: {counter},ThreadId: { Thread.CurrentThread.ManagedThreadId}");
